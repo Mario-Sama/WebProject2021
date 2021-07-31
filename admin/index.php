@@ -24,10 +24,10 @@ include_once 'includes/dbh.inc.php';
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Registered Admin</div>
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Registered Administrators</div>
               <div class="h5 mb-0 font-weight-bold text-gray-800">
 
-               <h4>Total Admin: *</h4>
+               <h4>Total Admins: *</h4>
 
               </div>
             </div>
