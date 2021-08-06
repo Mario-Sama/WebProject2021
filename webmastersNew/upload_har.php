@@ -25,6 +25,7 @@
       <div>
         <p id="output"> </p>
       </div>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 <script>
 /*
 const fileSelector = document.getElementById("file-selector");
@@ -192,22 +193,37 @@ fetch("./js/har.har")
     harData.wait = wait;
     harData.status = status;
     harData.statusText = statusText;
-    console.log(harData)
+    //console.log(harData)
 
     let httpr = new XMLHttpRequest();
-    let har = 1;
-    //httpr.open("POST","AJAX/get_har_data.php", true);
-    httpr.open("GET","AJAX/get_har_data.php?har_data=${harData}", true);
-    //let params = `har_data=${har}`;
-    console.log(harData)
+    //let har = 1;
+    httpr.open("POST",'AJAX/get_har_data.php', true);
+    //httpr.onreadystatechange = function() { //Call a function when the state changes.
+      //  if(this.readyState == 4 && this.status == 200) { // complete and no errors
+            //alert(httpr.responseText); // some processing here, or whatever you want to do with the response
+        //}
+        //else {
+          //alert(httpr.statusText)
+        //}
+    //};
+
+    //let params = `har_data=${harData}`;
+    var params = {
+      har_data: harData
+    };
+
+    //console.log(harData)
 
     httpr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
     httpr.onload = function() {
       console.log(httpr.responseText);
     };
-    //console.log(params)
-    httpr.send();
+    console.log(JSON.stringify(params));
+    console.log(params);
+    httpr.send(params);
+    //$.post('AJAX/get_har_data.php',harData)
+    //$.post("AJAX/get_har_data.php", params);
     })
   .catch(err =>console.log(err));
 
