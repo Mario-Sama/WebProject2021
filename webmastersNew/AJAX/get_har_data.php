@@ -1,11 +1,16 @@
 <?php
+  //print_r($_POST);
   require_once '../includes/dbh.inc.php';
-  echo $_REQUEST['har_data'];
+  print "lksdjflkd";
+  //echo $_REQUEST['har_data'];
 
-  if (isset($_REQUEST['har_data'])){
-    echo "Hi, ".$_REQUEST['har_data'];
-    $harData = $_REQUEST['har_data'];
-    $sql = "UPDATE users SET har_data=$harData WHERE usersName='marios';";
+  if (isset($_POST)){
+    //echo "Hi, ".$_POST;
+    //print_r($_POST);
+    $harData = $_POST;
+    print_r("lecok");
+    print "lksdjflkd";
+    $sql = "INSERT INTO har (har_data, userId) VALUES ('{}','Mariosss');";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
       header("location: ../upload_har.php?error=stmtfailed");

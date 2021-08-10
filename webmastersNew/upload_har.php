@@ -195,35 +195,30 @@ fetch("./js/har.har")
     harData.statusText = statusText;
     //console.log(harData)
 
-    let httpr = new XMLHttpRequest();
-    //let har = 1;
-    httpr.open("POST",'AJAX/get_har_data.php', true);
-    //httpr.onreadystatechange = function() { //Call a function when the state changes.
-      //  if(this.readyState == 4 && this.status == 200) { // complete and no errors
-            //alert(httpr.responseText); // some processing here, or whatever you want to do with the response
-        //}
-        //else {
-          //alert(httpr.statusText)
-        //}
-    //};
+    var emps = [];
+    var emp1= {};
+    var emp2 = {};
 
-    //let params = `har_data=${harData}`;
-    var params = {
-      har_data: harData
-    };
+    emp1.id = 1;
+    emp1.name = 'Durgesh';
+    emp1.addr = 'Pune';
+    emps.push(emp1);
 
-    //console.log(harData)
+    emp2.id = 2;
+    emp2.name = 'Rakesh';
+    emp2.addr = 'Mumbai';
+    emps.push(emp2);
 
-    httpr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-    httpr.onload = function() {
-      console.log(httpr.responseText);
-    };
-    console.log(JSON.stringify(params));
-    console.log(params);
-    httpr.send(params);
-    //$.post('AJAX/get_har_data.php',harData)
-    //$.post("AJAX/get_har_data.php", params);
+     //console.log(emps)
+     $.ajax({
+         url:"AJAX/get_har_data.php",
+         method: "post",
+         data: harData,
+         success: function(res) {
+             //console.log(res);
+         }
+    }) 
+    //console.log(harData);
     })
   .catch(err =>console.log(err));
 
