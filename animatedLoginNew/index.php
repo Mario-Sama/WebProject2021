@@ -35,8 +35,12 @@
            		    	<input type="password" class="input" name="pwd">
             	   </div>
             	</div>
-            	<a href="#">Forgot Password?</a>
+							<!-- <a href="#">New to our site?Sign Up.</a>  -->
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile">
+              Sign up for free!
+             </button>
             	<input type="submit" class="btn" name="submit" value="Login">
+							<!--<input type="submit" class="btn" name="submit" value="Login"> -->
             </form>
         </div>
     </div>
