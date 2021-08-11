@@ -2,6 +2,7 @@
 <?php
 include('security.php');
 
+
 //$connection = mysqli_connect("localhost","root","","adminpanel")   NO need to create a connection, beacuse we can call it from line 2,in security.php which is actually more efficient
 
 if(isset($_POST['registerbtn']))
@@ -116,12 +117,6 @@ if(isset($_POST['login_btn']))
         header('Location: login.php');
    }
 
-}
-
-if(isset($_POST['logout_btn']))
-{
-$_SESSION['status'] = "Logging Out...";
-header('Location:login.php')
 }
 
 include('security.php');

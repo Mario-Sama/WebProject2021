@@ -1,3 +1,10 @@
+<?php
+//include('../code.php');
+if(!isset($_SESSION))
+    {
+        session_start();
+    }
+?>
    <!-- Sidebar -->
    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -6,7 +13,7 @@
   <div class="sidebar-brand-icon rotate-n-15">
     <i class="fas fa-laugh-wink"></i>
   </div>
-  <div class="sidebar-brand-text mx-3">CEID <sup>WEB</sup></div>
+  <div class="sidebar-brand-text mx-3">CEID WEB</div>
 </a>
 
 <!-- Divider -->
@@ -285,7 +292,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
 
-               ADMIN
+               <?php echo $_SESSION['username']; ?>
 
                 </span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">

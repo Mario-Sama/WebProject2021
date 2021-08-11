@@ -2,7 +2,7 @@
   $serverName = "localhost";
   $dBUsername = "root";
   $dBPassword = "";
-  $dBName = "webmastersdb";
+  $dBName = "adminpanel";
 
   $conn = mysqli_connect($serverName, $dBUsername, $dBPassword, $dBName);
 

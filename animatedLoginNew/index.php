@@ -36,9 +36,7 @@
             	   </div>
             	</div>
 							<!-- <a href="#">New to our site?Sign Up.</a>  -->
-							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile">
-              Sign up for free!
-             </button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addadminprofile">Sign up for free!</button>
             	<input type="submit" class="btn" name="submit" value="Login">
 							<!--<input type="submit" class="btn" name="submit" value="Login"> -->
             </form>
