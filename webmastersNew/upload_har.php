@@ -213,11 +213,11 @@ fetch("./js/har.har")
      $.ajax({
          url:"AJAX/get_har_data.php",
          method: "post",
-         data: harData,
+         data: {har: JSON.stringify(harData)},
          success: function(res) {
-             //console.log(res);
+             console.log(res);
          }
-    }) 
+    })
     //console.log(harData);
     })
   .catch(err =>console.log(err));
