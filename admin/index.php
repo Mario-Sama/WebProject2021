@@ -2,9 +2,9 @@
 include('includes/header.php');
 include('includes/navbar.php');
 include_once 'includes/dbh.inc.php';
-include('database/dbconfig.php')
+include('database/dbconfig.php');
+include('security.php');
 ?>
-
 
 <!-- Begin Page Content -->
 <div class="container-fluid">

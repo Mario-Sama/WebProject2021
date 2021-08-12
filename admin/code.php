@@ -2,6 +2,7 @@
 <?php
 include('security.php');
 
+
 //$connection = mysqli_connect("localhost","root","","adminpanel")   NO need to create a connection, beacuse we can call it from line 2,in security.php which is actually more efficient
 
 if(isset($_POST['registerbtn']))
@@ -49,6 +50,12 @@ if(isset($_POST['registerbtn']))
     }
 
 }
+
+
+
+
+
+
 //if updatebtn (button) is pressed execute the following code> Update Query
 if(isset($_POST['updatebtn']))
 {
@@ -73,9 +80,12 @@ if(isset($_POST['updatebtn']))
         header('Location: register.php');
     }
 }
+
+
+
+
+
 //Code for deleting a registered admin
-
-
 if(isset($_POST['delete_btn']))
 {
     $id = $_POST['delete_id'];
@@ -96,6 +106,10 @@ if(isset($_POST['delete_btn']))
         header('Location: register.php');
     }
 }
+
+
+
+
 
 if(isset($_POST['login_btn']))
 {
@@ -118,11 +132,22 @@ if(isset($_POST['login_btn']))
 
 }
 
+
+
+
+
+
+
+/*
 if(isset($_POST['logout_btn']))
 {
-$_SESSION['status'] = "Logging Out...";
-header('Location:login.php')
+//include('includes/navbar.php');
+  session_start();
+  session_unset();
+  session_destroy();
+//$_SESSION['status'] = "Logging Out...";
+header('Location: login.php');
 }
+*/
 
-include('security.php');
 ?>
