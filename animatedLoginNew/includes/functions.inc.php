@@ -59,7 +59,7 @@
     $sql = "SELECT * FROM users WHERE usersUid = ? OR usersEmail = ?;";
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-      header("location: ../signup.php?error=stmtfailed");
+      header("location: ../signup.php?error=stmtfailed<3");
       exit();
     }
 
@@ -127,18 +127,18 @@
       $_SESSION["userid"] = $uidExists["usersId"];
       $_SESSION["useruid"] = $uidExists["usersUid"];
 
-      #if ($uidExists["usersType"] == "admin") {
-      #  header("location: ../admin.php?error=none");
-      #  exit();
-      #}
-      #if ($uidExists["usersType"] == "user") {
-      #  header("location: ../index.php?error=none");
-      #  exit();
-      #}
+
+      if ($uidExists["isAdmin"] == true) {
+              header("location: ../../admin/index.php?error=none");
+              exit();
+            }
       header("location: ../index.php?error=none");
       exit();
+      }
     }
-  }
+
+
+
 
   function emptySettingsLogin($oldUsername, $newUsername, $pwd) {
     $result;
