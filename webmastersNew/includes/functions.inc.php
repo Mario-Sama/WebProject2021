@@ -127,14 +127,10 @@
       $_SESSION["userid"] = $uidExists["usersId"];
       $_SESSION["useruid"] = $uidExists["usersUid"];
 
-      #if ($uidExists["usersType"] == "admin") {
-      #  header("location: ../admin.php?error=none");
-      #  exit();
-      #}
-      #if ($uidExists["usersType"] == "user") {
-      #  header("location: ../index.php?error=none");
-      #  exit();
-      #}
+      if ($uidExists["isAdmin"] == true) {
+        header("location: ../admin.php?error=none");
+        exit();
+      }
       header("location: ../index.php?error=none");
       exit();
     }
