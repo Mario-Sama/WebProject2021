@@ -19,7 +19,7 @@ if (isset($_SESSION["useruid"])) {
   <button type="button" name="settings">Settings</button>
 </a>
 
-<input type="file" id="file-selector" multiple accept=".har, .jpg, .png, .json">
+<input type="file" id="file-selector" multiple accept=".har, .json">
 <a href="heatmap.php">
   <button type="button" name="heatmap">Heatmap</button>
 </a>
@@ -30,16 +30,51 @@ if (isset($_SESSION["useruid"])) {
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 
 <script>
+  let ipad;
+  fetch("https://api.ipify.org/?format=json")
+    .then(results => results.json())
+    .then(data => ipad = data.ip);
+
   const fileSelector = document.getElementById("file-selector");
   fileSelector.addEventListener('change', (event) => {
     const fileList = event.target.files;
-    console.log(fileList);
+    //console.log(fileList);
     const reader = new FileReader();
-    console.log(reader);
+    //console.log(reader);
+    // $.ajax({
+    //   url: "AJAX/get_har_data.php",
+    //   method: "post",
+    //   data: {
+    //     har: JSON.stringify(harData)
+    //   },
+    //   success: function(res) {
+    //     console.log(res);
+    //   }
+    // });
     reader.onload = function() {
       const json = JSON.parse(reader.result);
-      console.log(12);
+      console.log(ipad);
       console.log(json);
+      let harData = {};
+      let obj = {
+        requestMethod: [],
+        requestUrl: [],
+        requestHeadersName: [],
+        requestHeadersValue: [],
+        startedDateTime: null,
+        serverIPAddress: null,
+        content_type: null,
+        cache_control: null,
+        pragma: null,
+        expires: null,
+        age: null,
+        last_modified: null,
+        host: null,
+        wait: null,
+        status: null,
+        statusText: null
+      }
+      let list = []
       let requestMethod = [];
       let requestUrl = [];
       let requestHeadersName = [];
@@ -49,10 +84,13 @@ if (isset($_SESSION["useruid"])) {
       let wait = [];
       let status = [];
       let statusText = [];
+      //let list = [];
+      //list[0] = 10;
 
       for (let i = 0; i < json.log.entries.length; i++) {
         requestMethod.push(json.log.entries[i].request.method);
         requestUrl.push(json.log.entries[i].request.url);
+        
         /*
         console.log("method = "+json.log.entries[i].request.method);
         console.log("method = "+typeof(json.log.entries[i].request.method));
@@ -115,28 +153,14 @@ if (isset($_SESSION["useruid"])) {
       harData.wait = wait;
       harData.status = status;
       harData.statusText = statusText;
-      //console.log(harData)
+      console.log(harData)
 
-      var emps = [];
-      var emp1 = {};
-      var emp2 = {};
-
-      emp1.id = 1;
-      emp1.name = 'Durgesh';
-      emp1.addr = 'Pune';
-      emps.push(emp1);
-
-      emp2.id = 2;
-      emp2.name = 'Rakesh';
-      emp2.addr = 'Mumbai';
-      emps.push(emp2);
-
-      //console.log(emps)
       $.ajax({
         url: "AJAX/get_har_data.php",
         method: "post",
         data: {
-          har: JSON.stringify(harData)
+          har: JSON.stringify(harData),
+          ip: ipad
         },
         success: function(res) {
           console.log(res);
@@ -144,6 +168,7 @@ if (isset($_SESSION["useruid"])) {
       });
       console.log(harData);
     }
+    reader.readAsText(fileList[0]);
   });
   // const dropArea = document.getElementById('drop-area');
   // if (dropArea) {
