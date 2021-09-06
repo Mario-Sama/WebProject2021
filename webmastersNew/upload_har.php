@@ -7,6 +7,7 @@ include_once 'header.php';
     width: 450px;
     height: 250px;
   }
+  
 </style>
 
 <?php
@@ -20,14 +21,15 @@ if (isset($_SESSION["useruid"])) {
 </a>
 
 <input type="file" id="file-selector" multiple accept=".har, .json">
-<a href="heatmap.php">
-  <button type="button" name="heatmap">Heatmap</button>
-</a>
 <p id="status"></p>
 <div>
   <p id="output"> </p>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<script>
+  src = "https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.1/d3.min.js"
+</script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
 <script>
   let ipad;
@@ -40,263 +42,124 @@ if (isset($_SESSION["useruid"])) {
     const fileList = event.target.files;
     //console.log(fileList);
     const reader = new FileReader();
-    //console.log(reader);
-    // $.ajax({
-    //   url: "AJAX/get_har_data.php",
-    //   method: "post",
-    //   data: {
-    //     har: JSON.stringify(harData)
-    //   },
-    //   success: function(res) {
-    //     console.log(res);
-    //   }
-    // });
     reader.onload = function() {
       const json = JSON.parse(reader.result);
       console.log(ipad);
       console.log(json);
       let harData = {};
-      let obj = {
-        requestMethod: [],
-        requestUrl: [],
-        requestHeadersName: [],
-        requestHeadersValue: [],
-        startedDateTime: null,
-        serverIPAddress: null,
-        content_type: null,
-        cache_control: null,
-        pragma: null,
-        expires: null,
-        age: null,
-        last_modified: null,
-        host: null,
-        wait: null,
-        status: null,
-        statusText: null
-      }
       let list = []
       let requestMethod = [];
       let requestUrl = [];
       let requestHeadersName = [];
       let requestHeadersValue = [];
+      let responseHeadersName = [];
+      let responseHeadersValue = [];
       let startedDateTime = [];
       let serverIPAddress = [];
       let wait = [];
       let status = [];
       let statusText = [];
-      //let list = [];
-      //list[0] = 10;
+      let newHar = {};
 
       for (let i = 0; i < json.log.entries.length; i++) {
         requestMethod.push(json.log.entries[i].request.method);
         requestUrl.push(json.log.entries[i].request.url);
-        
-        /*
-        console.log("method = "+json.log.entries[i].request.method);
-        console.log("method = "+typeof(json.log.entries[i].request.method));
-        console.log("url = "+json.log.entries[i].request.url);
-        console.log("url = "+typeof(json.log.entries[i].request.url));
-        */
+        const obj = {};
+        const requestHeaders = {};
+        const responseHeaders = {};
+        obj.requestMethod = json.log.entries[i].request.method;
+        obj.requestUrl = json.log.entries[i].request.url;
+        //obj.requestHeadersName = [];
+        //obj.requestHeadersValue = [];
+        //obj.responseHeadersName = [];
+        //obj.responseHeadersValue = [];
         let name;
         for (let j = 0; j < json.log.entries[i].request.headers.length; j++) {
           name = json.log.entries[i].request.headers[j].name;
           if (name === "content-type" || name === "cache-control" || name === "pragma" || name === "expires" ||
             name === "age" || name === "last-modified" || name === "Host") {
-            requestMethod.push(json.log.entries[i].request.headers[j].name);
-            requestUrl.push(json.log.entries[i].request.headers[j].value);
-            /*
-            console.log(name+" == "+json.log.entries[i].request.headers[j].name);
-            console.log(typeof(json.log.entries[i].request.headers[j].name));
-            console.log(name+" == "+json.log.entries[i].request.headers[j].value);
-            console.log(typeof(json.log.entries[i].request.headers[j].value));
-            */
+            requestHeadersName.push(json.log.entries[i].request.headers[j].name);
+            requestHeadersValue.push(json.log.entries[i].request.headers[j].value);
+            //obj.requestHeadersName = json.log.entries[i].request.headers[j].name;
+            //obj.requestHeadersValue = json.log.entries[i].request.headers[j].value;
+            requestHeaders[name] = json.log.entries[i].request.headers[j].value;
           }
         }
+        obj.requestHeaders = requestHeaders;
+
         for (j = 0; j < json.log.entries[i].response.headers.length; j++) {
           name = json.log.entries[i].response.headers[j].name;
           if (name === "content-type" || name === "cache-control" || name === "pragma" || name === "expires" ||
             name === "age" || name === "last-modified" || name === "Host") {
-            requestMethod.push(json.log.entries[i].response.headers[j].name);
-            requestUrl.push(json.log.entries[i].response.headers[j].value);
-            /*
-            console.log(name+" == "+json.log.entries[i].response.headers[j].name);
-            console.log(typeof(json.log.entries[i].response.headers[j].name));
-            console.log(name+" == "+json.log.entries[i].response.headers[j].value);
-            console.log(typeof(json.log.entries[i].response.headers[j].value));
-            */
+            responseHeadersName.push(json.log.entries[i].response.headers[j].name);
+            responseHeadersValue.push(json.log.entries[i].response.headers[j].value);
+            //obj.responseHeadersName.push(json.log.entries[i].response.headers[j].name);
+            //obj.responseHeadersValue.push(json.log.entries[i].response.headers[j].value);
+            responseHeaders[name] = json.log.entries[i].response.headers[j].value;
           }
         }
-        /*
-    console.log("startedDateTime = "+json.log.entries[i].startedDateTime);
-    console.log(typeof(json.log.entries[i].startedDateTime));
-    console.log("serverIPAddress = "+json.log.entries[i].serverIPAddress);
-    console.log(typeof(json.log.entries[i].serverIPAddress));
-    console.log("wait = "+json.log.entries[i].timings.wait);
-    console.log(typeof(json.log.entries[i].timings.wait));
-    console.log("status = "+json.log.entries[i].response.status);
-    console.log(typeof(json.log.entries[i].response.status));
-    console.log("statusText = "+json.log.entries[i].response.statusText);
-    console.log(typeof(json.log.entries[i].response.statusText));
-    */
+        obj.responseHeaders = responseHeaders;
+
         startedDateTime.push(json.log.entries[i].startedDateTime);
         serverIPAddress.push(json.log.entries[i].serverIPAddress);
         wait.push(json.log.entries[i].timings.wait);
         status.push(json.log.entries[i].response.status);
         statusText.push(json.log.entries[i].response.statusText);
+
+        obj.startedDateTime = json.log.entries[i].startedDateTime;
+        obj.serverIPAddress = json.log.entries[i].serverIPAddress;
+        obj.wait = json.log.entries[i].timings.wait;
+        obj.status = json.log.entries[i].response.status;
+        obj.statusText = json.log.entries[i].response.statusText;
+        list.push(obj);
       }
       harData.requestMethod = requestMethod;
       harData.requestUrl = requestUrl;
       harData.requestHeadersName = requestHeadersName;
       harData.requestHeadersValue = requestHeadersValue;
+      harData.responseHeadersName = responseHeadersName;
+      harData.responseHeadersValue = responseHeadersValue;
       harData.startedDateTime = startedDateTime;
       harData.serverIPAddress = serverIPAddress;
       harData.wait = wait;
       harData.status = status;
       harData.statusText = statusText;
-      console.log(harData)
+      //console.log(harData);
+      newHar = list;
+      console.log(newHar);
 
       $.ajax({
         url: "AJAX/get_har_data.php",
         method: "post",
         data: {
-          har: JSON.stringify(harData),
+          har: JSON.stringify(newHar),
           ip: ipad
         },
         success: function(res) {
           console.log(res);
         }
       });
-      console.log(harData);
+      //console.log(harData);
     }
     reader.readAsText(fileList[0]);
   });
   // const dropArea = document.getElementById('drop-area');
   // if (dropArea) {
-  //   dropArea.addEventListener('dragover', (event) => {
-  //     event.stopPropagation();
-  //     event.preventDefault();
-  //     // Style the drag-and-drop as a "copy file" operation.
-  //     event.dataTransfer.dropEffect = 'copy';
-  //   });
+  // dropArea.addEventListener('dragover', (event) => {
+  // event.stopPropagation();
+  // event.preventDefault();
+  // // Style the drag-and-drop as a "copy file" operation.
+  // event.dataTransfer.dropEffect = 'copy';
+  // });
   // }
   // if (dropArea) {
-  //   dropArea.addEventListener('drop', (event) => {
-  //     event.stopPropagation();
-  //     event.preventDefault();
-  //     const fileList = event.dataTransfer.files;
-  //     //console.log(fileList);
-  //   });
+  // dropArea.addEventListener('drop', (event) => {
+  // event.stopPropagation();
+  // event.preventDefault();
+  // const fileList = event.dataTransfer.files;
+  // //console.log(fileList);
+  // });
   // }
-
-  // fetch("./js/har.har")
-  //   .then(response => response.json())
-  //   .then(json => {
-  //     //console.log(json)
-  //     var harData = {};
-  //     //console.log(harData);
-  //     let requestMethod = [];
-  //     let requestUrl = [];
-  //     let requestHeadersName = [];
-  //     let requestHeadersValue = [];
-  //     let startedDateTime = [];
-  //     let serverIPAddress = [];
-  //     let wait = [];
-  //     let status = [];
-  //     let statusText = [];
-
-  //     for (let i = 0; i < json.log.entries.length; i++) {
-  //       requestMethod.push(json.log.entries[i].request.method)
-  //       requestUrl.push(json.log.entries[i].request.url)
-  //       /*
-  //       console.log("method = "+json.log.entries[i].request.method);
-  //       console.log("method = "+typeof(json.log.entries[i].request.method));
-  //       console.log("url = "+json.log.entries[i].request.url);
-  //       console.log("url = "+typeof(json.log.entries[i].request.url));
-  //       */
-  //       let name;
-  //       for (let j = 0; j < json.log.entries[i].request.headers.length; j++) {
-  //         name = json.log.entries[i].request.headers[j].name;
-  //         if (name === "content-type" || name === "cache-control" ||  name === "pragma" || name === "expires" ||
-  //             name === "age" || name === "last-modified" || name === "Host") {
-  //             requestMethod.push(json.log.entries[i].request.headers[j].name)
-  //             requestUrl.push(json.log.entries[i].request.headers[j].value)
-  //               /*
-  //             console.log(name+" == "+json.log.entries[i].request.headers[j].name);
-  //             console.log(typeof(json.log.entries[i].request.headers[j].name));
-  //             console.log(name+" == "+json.log.entries[i].request.headers[j].value);
-  //             console.log(typeof(json.log.entries[i].request.headers[j].value));
-  //             */
-  //         }
-  //       }
-  //       for (j = 0; j < json.log.entries[i].response.headers.length; j++) {
-  //         name = json.log.entries[i].response.headers[j].name;
-  //         if (name === "content-type" || name === "cache-control" ||  name === "pragma" || name === "expires" ||
-  //             name === "age" || name === "last-modified" || name === "Host") {
-  //             requestMethod.push(json.log.entries[i].response.headers[j].name)
-  //             requestUrl.push(json.log.entries[i].response.headers[j].value)
-  //               /*
-  //             console.log(name+" == "+json.log.entries[i].response.headers[j].name);
-  //             console.log(typeof(json.log.entries[i].response.headers[j].name));
-  //             console.log(name+" == "+json.log.entries[i].response.headers[j].value);
-  //             console.log(typeof(json.log.entries[i].response.headers[j].value));
-  //             */
-  //         }
-  //       }
-  //       /*
-  //     console.log("startedDateTime = "+json.log.entries[i].startedDateTime);
-  //     console.log(typeof(json.log.entries[i].startedDateTime));
-  //     console.log("serverIPAddress = "+json.log.entries[i].serverIPAddress);
-  //     console.log(typeof(json.log.entries[i].serverIPAddress));
-  //     console.log("wait = "+json.log.entries[i].timings.wait);
-  //     console.log(typeof(json.log.entries[i].timings.wait));
-  //     console.log("status = "+json.log.entries[i].response.status);
-  //     console.log(typeof(json.log.entries[i].response.status));
-  //     console.log("statusText = "+json.log.entries[i].response.statusText);
-  //     console.log(typeof(json.log.entries[i].response.statusText));
-  //     */
-  //     startedDateTime.push(json.log.entries[i].startedDateTime)
-  //     serverIPAddress.push(json.log.entries[i].serverIPAddress)
-  //     wait.push(json.log.entries[i].timings.wait)
-  //     status.push(json.log.entries[i].response.status)
-  //     statusText.push(json.log.entries[i].response.statusText)
-  //     }
-  //     harData.requestMethod = requestMethod;
-  //     harData.requestUrl = requestUrl;
-  //     harData.requestHeadersName = requestHeadersName;
-  //     harData.requestHeadersValue = requestHeadersValue;
-  //     harData.startedDateTime = startedDateTime;
-  //     harData.serverIPAddress = serverIPAddress;
-  //     harData.wait = wait;
-  //     harData.status = status;
-  //     harData.statusText = statusText;
-  //     //console.log(harData)
-
-  //     var emps = [];
-  //     var emp1= {};
-  //     var emp2 = {};
-
-  //     emp1.id = 1;
-  //     emp1.name = 'Durgesh';
-  //     emp1.addr = 'Pune';
-  //     emps.push(emp1);
-
-  //     emp2.id = 2;
-  //     emp2.name = 'Rakesh';
-  //     emp2.addr = 'Mumbai';
-  //     emps.push(emp2);
-
-  //      //console.log(emps)
-  //      $.ajax({
-  //          url:"AJAX/get_har_data.php",
-  //          method: "post",
-  //          data: {har: JSON.stringify(harData)},
-  //          success: function(res) {
-  //              console.log(res);
-  //          }
-  //     })
-  //     console.log(harData);
-  //     })
-  //   .catch(err =>console.log(err));
 </script>
 
 

@@ -6,7 +6,7 @@
   if (isset($_POST["har"]) && isset($_POST["ip"])){
     $harData = $_POST["har"];
     $userIp = $_POST["ip"];
-    $host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+    //$host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
     //echo $hostname; 
     $myfile = fopen("testfile.txt", "w");
     fwrite($myfile, $harData);
@@ -19,7 +19,7 @@
     }
     else {
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $harData, $date, $user, $host);
+        $stmt->bind_param("ssss", $harData, $date, $user, $userIp);
         $stmt->execute();
         $stmt->store_result();
         //$stmt->bind_result($harData);
