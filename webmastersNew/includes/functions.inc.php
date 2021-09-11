@@ -80,6 +80,31 @@
     mysqli_stmt_close($stmt);
   }
 
+  function isAdmin($conn, $username, $email)
+  {
+    $sql = "SELECT isAdmin FROM users WHERE usersUid = ? OR usersEmail = ?;";
+    $stmt = mysqli_stmt_init($conn);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+      header("location: ../signup.php?error=stmtfailed");
+      exit();
+    }
+
+
+    mysqli_stmt_bind_param($stmt, "ss", $username, $email);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+      return $row;
+    } else {
+      $result = false;
+      return $result;
+    }
+
+    mysqli_stmt_close($stmt);
+  }
+
   function createUser($conn, $name, $email, $username, $pwd) {
     $sql = "INSERT INTO users (usersName, usersEmail, usersUid, usersPwd) VALUES (?, ?, ?, ?);";
     $stmt = mysqli_stmt_init($conn);
@@ -109,7 +134,7 @@
   }
 
   function loginUser($conn, $username, $pwd) {
-    $uidExists = uidExists($conn, $username, $username);
+    $uidExists = uidExists($conn, $username, $pwd);
 
     if ($uidExists === false) {
       header("location: ../login.php?error=wronglogin");
@@ -125,14 +150,24 @@
     else if ($checkPwd === true) {
       session_start();
       $_SESSION["userid"] = $uidExists["usersId"];
+      echo $uidExists["usersId"];
       $_SESSION["useruid"] = $uidExists["usersUid"];
+      $isAdmin = isAdmin($conn, $username, $pwd);
+      if ($isAdmin === false) {
+        header("location: ../login.php?error=problem");
+        exit();
+      }
+
+      $_SESSION["isAdmin"] = $isAdmin["isAdmin"];
 
       if ($uidExists["isAdmin"] == true) {
         header("location: ../admin.php?error=none");
         exit();
       }
-      header("location: ../index.php?error=none");
-      exit();
+      else {
+        header("location: ../index.php?error=none");
+        exit();
+      }
     }
   }
 

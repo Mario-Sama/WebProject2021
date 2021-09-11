@@ -91,101 +91,110 @@ include_once 'includes/dbh.inc.php'
       //const marker = L.marker([0, 0]).addTo(mymap);
       // set endpoint and your access key
       var data = JSON.parse(json);
-      var ip = data.serverIPAddress;
+      console.log(data);
+      let ip = [];
+      for (i = 0; i < data.length; i++) {
+        if (data[i].serverIPAddress)
+          ip.push(data[i].serverIPAddress);
+      }
       //let df = Object.keys(ip);
       //var ip_data = ip.slice(0, 2);
       console.log(ip);
       var access_key = '857f8bbffec5f0b776e99d320d2f4885';
 
       // get the API result via jQuery.ajax
+      let node = {};
+      var nodeList = [];
       for (let i = 0; i < ip.length; i++) {
         $.ajax({
           url: 'http://api.ipapi.com/' + ip[i] + '?access_key=' + access_key,
-          dataType: 'jsonp',
+          dataType: 'json',
           success: function(ipData) {
             // output the "calling_code" object inside "location"
             //alert(json.location.calling_code);
             //location.push
-            console.log(ipData.latitude);
+            //console.log(ipData.latitude);
+            node.lat = ipData.latitude;
+            node.lng = ipData.longitude;
+            console.log(node);
+            nodeList.push(node);
             //marker.setLatLng([json.latitude, json.longitude])
           }
         });
       }
+      console.log(nodeList);
+      let mymap = L.map("mapid");
+      let osmUrl = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+      let osmAttrib =
+        'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
+      let osm = new L.TileLayer(osmUrl, {
+        attribution: osmAttrib
+      });
+      mymap.addLayer(osm);
+      mymap.setView([38.246242, 21.7350847], 8);
+
+
+      let testData = {
+        max: 8,
+        data: [{
+            lat: 38.246242,
+            lng: 21.735085,
+            count: 3
+          },
+          {
+            lat: 38.323343,
+            lng: 21.865082,
+            count: 2
+          },
+          {
+            lat: 38.34381,
+            lng: 21.57074,
+            count: 8
+          },
+          {
+            lat: 38.108628,
+            lng: 21.502075,
+            count: 7
+          },
+          {
+            lat: 38.123034,
+            lng: 21.917725,
+            count: 4
+          }
+        ]
+      };
+
+      let cfg = {
+        // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+        // if scaleRadius is false it will be the constant radius used in pixels
+        "radius": 40,
+        "maxOpacity": 0.8,
+        // scales the radius based on map zoom
+        "scaleRadius": false,
+        // if set to false the heatmap uses the global maximum for colorization
+        // if activated: uses the data maximum within the current map boundaries
+        //   (there will always be a red spot with useLocalExtremas true)
+        "useLocalExtrema": false,
+        // which field name in your data represents the latitude - default "lat"
+        latField: 'lat',
+        // which field name in your data represents the longitude - default "lng"
+        lngField: 'lng',
+        // which field name in your data represents the data value - default "value"
+        valueField: 'count'
+      };
+
+      let heatmapLayer = new HeatmapOverlay(cfg);
+
+      mymap.addLayer(heatmapLayer);
+      heatmapLayer.setData(testData);
     },
     error: function() {
-      alert("MMMMM");
+      alert("Something went wrong!!!");
     }
   });
-  test
-
   // jQuery.get("https://ipinfo.io", function(e) {
   //  console.log(e);
   // }, "jsonp")
-
-  let mymap = L.map("mapid");
-  let osmUrl = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
-  let osmAttrib =
-    'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors';
-  let osm = new L.TileLayer(osmUrl, {
-    attribution: osmAttrib
-  });
-  mymap.addLayer(osm);
-  mymap.setView([38.246242, 21.7350847], 8);
-
-
-  let testData = {
-    max: 8,
-    data: [{
-        lat: 38.246242,
-        lng: 21.735085,
-        count: 3
-      },
-      {
-        lat: 38.323343,
-        lng: 21.865082,
-        count: 2
-      },
-      {
-        lat: 38.34381,
-        lng: 21.57074,
-        count: 8
-      },
-      {
-        lat: 38.108628,
-        lng: 21.502075,
-        count: 7
-      },
-      {
-        lat: 38.123034,
-        lng: 21.917725,
-        count: 4
-      }
-    ]
-  };
-
-  let cfg = {
-    // radius should be small ONLY if scaleRadius is true (or small radius is intended)
-    // if scaleRadius is false it will be the constant radius used in pixels
-    "radius": 40,
-    "maxOpacity": 0.8,
-    // scales the radius based on map zoom
-    "scaleRadius": false,
-    // if set to false the heatmap uses the global maximum for colorization
-    // if activated: uses the data maximum within the current map boundaries
-    //   (there will always be a red spot with useLocalExtremas true)
-    "useLocalExtrema": false,
-    // which field name in your data represents the latitude - default "lat"
-    latField: 'lat',
-    // which field name in your data represents the longitude - default "lng"
-    lngField: 'lng',
-    // which field name in your data represents the data value - default "value"
-    valueField: 'count'
-  };
-
-  let heatmapLayer = new HeatmapOverlay(cfg);
-
-  mymap.addLayer(heatmapLayer);
-  heatmapLayer.setData(testData);
 
 
   /*

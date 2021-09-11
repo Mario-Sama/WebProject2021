@@ -6,10 +6,10 @@
   if (isset($_POST["har"]) && isset($_POST["ip"])){
     $harData = $_POST["har"];
     $userIp = $_POST["ip"];
-    //$host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-    //echo $hostname; 
-    $myfile = fopen("testfile.txt", "w");
-    fwrite($myfile, $harData);
+  //$host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+  //echo $hostname; 
+  $myfile = fopen("testfile.txt", "w");
+  fwrite($myfile, $harData);
     $date = date('Y-m-d H:i:s');
     $user = $_SESSION["useruid"];
     $sql = "INSERT INTO har (har_data, uploadDate, usersUid, usersIp) VALUES (?, ?, ?, ?);";

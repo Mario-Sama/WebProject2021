@@ -40,13 +40,15 @@
         <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
             <div class="form-group">
                 <select class="mul-select" multiple="true">
-                    <option value="Cambodia">Cambodia</option>
-                    <option value="Khmer">Khmer</option>
-                    <option value="Thiland">Thiland</option>
-                    <option value="Koren">Koren</option>
-                    <option value="China">China</option>
-                    <option value="English">English</option>
-                    <option value="USA">USA</option>
+                    <option value='text/html'>text/html</option>
+                    <option value='text/css'>text/css</option>
+                    <option value='image/jpeg'>image/jpeg</option>
+                    <option value='image/png'>image/png</option>
+                    <option value='application/javascript'>application/javascript</option>
+                    <option value='application/json'>application/json</option>
+                    <option value='text/javascript'>text/javascript</option>
+                    <option value='text/plain'>text/plain</option>
+                    <option value='image/vnd.microsoft.icon'>image/vnd.microsoft.icon</option>
                 </select>
             </div>
         </div>
@@ -59,8 +61,11 @@
             tags: true,
             tokenSeparators: ['/', ',', ';', " "]
         });
+        console.log($('.mul-select').find(':selected'));
     })
-    console.log($('.mul-select').select2('data'));
+    $(document).onchange(function() {
+        console.log($('.mul-select').find(':selected'));
+    });
 </script>
 <script>
     $.ajax({
@@ -130,23 +135,16 @@
             let expires;
             let lastMod;
             for (i = 0; i < data.length; i++) {
-                if (data[i].responseHeaders['expires']) { // Find the expires
-                    //console.log(data[i].responseHeaders['expires']);
-                    //console.log(data[i].responseHeaders['last-modified']);
+                if (data[i].responseHeaders['expires']) { // Find the ttl from expires and startedDateTime
                     expires = new Date(data[i].responseHeaders['expires']);
-                    lastMod = new Date(data[i].responseHeaders['last-modified']);
-                    //console.log(i);
-                    //console.log(expires);
-                    //console.log(lastMod);
+                    lastMod = new Date(data[i].responseHeaders['startedDateTime']);
                     histogramData.push(expires - lastMod);
-                    //console.log(histogramData);
                 }
             }
             histogramData = histogramData.filter(function(value) {
                 return !Number.isNaN(value);
             });
 
-            //console.log(ss);
             histogramData = histogramData.sort(function(a, b) { // Sort the histogram data
                 return a - b;
             });
@@ -203,11 +201,9 @@
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                     labels: bins,
                     datasets: [{
-                        label: '# of Votes',
-                        //data: [12, 19, 3, 5, 2, 3],
+                        label: '# ttl',
                         data: binFreq,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -234,7 +230,6 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            //type: "logarithmic",
                         }
                     }
                 }

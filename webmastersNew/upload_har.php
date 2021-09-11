@@ -7,7 +7,6 @@ include_once 'header.php';
     width: 450px;
     height: 250px;
   }
-  
 </style>
 
 <?php
@@ -16,15 +15,14 @@ if (isset($_SESSION["useruid"])) {
 }
 ?>
 
-<a href="accountSettings.php">
-  <button type="button" name="settings">Settings</button>
-</a>
-
 <input type="file" id="file-selector" multiple accept=".har, .json">
 <p id="status"></p>
 <div>
   <p id="output"> </p>
 </div>
+
+<div id="downloadButton"></div>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 <script>
   src = "https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.1/d3.min.js"
@@ -33,6 +31,7 @@ if (isset($_SESSION["useruid"])) {
 
 <script>
   let ipad;
+  let newHar = {};
   fetch("https://api.ipify.org/?format=json")
     .then(results => results.json())
     .then(data => ipad = data.ip);
@@ -40,7 +39,6 @@ if (isset($_SESSION["useruid"])) {
   const fileSelector = document.getElementById("file-selector");
   fileSelector.addEventListener('change', (event) => {
     const fileList = event.target.files;
-    //console.log(fileList);
     const reader = new FileReader();
     reader.onload = function() {
       const json = JSON.parse(reader.result);
@@ -59,7 +57,6 @@ if (isset($_SESSION["useruid"])) {
       let wait = [];
       let status = [];
       let statusText = [];
-      let newHar = {};
 
       for (let i = 0; i < json.log.entries.length; i++) {
         requestMethod.push(json.log.entries[i].request.method);
@@ -124,9 +121,28 @@ if (isset($_SESSION["useruid"])) {
       harData.wait = wait;
       harData.status = status;
       harData.statusText = statusText;
-      //console.log(harData);
       newHar = list;
       console.log(newHar);
+
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.innerHTML = 'Download JSON';
+      button.className = 'btn-styled';
+
+      button.onclick = function() {
+        var myBlob = new Blob([JSON.stringify(newHar)], {
+          type: "json"
+        });
+        console.log(myBlob);
+        var url = window.URL.createObjectURL(myBlob);
+        var link = document.createElement("a");
+        link.href = url;
+        link.download = "demo.json";
+        link.click();
+        window.URL.revokeObjectURL(url);
+      };
+      var container = document.getElementById('downloadButton');
+      container.appendChild(button);
 
       $.ajax({
         url: "AJAX/get_har_data.php",
