@@ -267,14 +267,6 @@ fetch('https://ipapi.co/8.8.8.8?access_key=857f8bbffec5f0b776e99d320d2f4885/json
 </script>
 
 
-<?php
-// if (isset($_SESSION["useruid"])) {
-// echo "<p>Hello " . $_SESSION["useruid"] . "<p>";
-//}
-?>
 
 
 
-<?php
-include_once 'footer.php'
-?>

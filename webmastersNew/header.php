@@ -8,8 +8,6 @@ session_start();
 <head>
   <meta charset="utf-8">
   <title>webmasters project</title>
-  <link rel="stylesheet" href="/css/reset.css">
-  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>

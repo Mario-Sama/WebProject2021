@@ -10,9 +10,7 @@ include_once 'header.php';
 </style>
 
 <?php
-if (isset($_SESSION["useruid"])) {
-  echo "<p>Hello " . $_SESSION["useruid"] . "<p>";
-}
+
 ?>
 
 <input type="file" id="file-selector" multiple accept=".har, .json">
@@ -178,7 +176,3 @@ if (isset($_SESSION["useruid"])) {
   // }
 </script>
 
-
-<?php
-include_once 'footer.php'
-?>

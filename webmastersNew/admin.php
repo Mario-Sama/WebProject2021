@@ -3,10 +3,7 @@ include_once 'header.php';
 ?>
 
 <?php
-if (isset($_SESSION["useruid"])) {
-  echo "<p>Hello " . $_SESSION["useruid"] . "<p>";
-  echo "<p>Hello " . $_SESSION["isAdmin"] . "<p>";
-}
+
 ?>
 <a href="basicData.php">
   <button type="button" name="basicData">Display Basic Data</button>
@@ -25,8 +22,3 @@ if (isset($_SESSION["useruid"])) {
 </a>
 
 <section class="index-intro">
-
-
-  <?php
-  include_once 'footer.php'
-  ?>
