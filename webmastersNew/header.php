@@ -22,6 +22,7 @@ session_start();
             echo "<li><a href='includes/logout.inc.php'>Log out</a></li>";
             echo "<li><a href='upload_har.php'>Upload a har file</a></li>";
             echo "<li><a href='heatmap.php'>See the heatmap</a></li>";
+            $var =  $_SESSION["useruid"];
           } else if ($_SESSION["isAdmin"]) {
             echo "<li><a href='accountSettings.php'>Account Settings</a></li>";
             echo "<li><a href='includes/logout.inc.php'>Log out</a></li>";

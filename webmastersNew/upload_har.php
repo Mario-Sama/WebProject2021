@@ -153,7 +153,6 @@ include_once 'header.php';
           console.log(res);
         }
       });
-      //console.log(harData);
     }
     reader.readAsText(fileList[0]);
   });

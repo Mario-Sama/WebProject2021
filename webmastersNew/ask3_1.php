@@ -57,15 +57,12 @@
 <script>
     $(document).ready(function() {
         $(".mul-select").select2({
-            placeholder: "select country", //placeholder
+            placeholder: "select content-type", //placeholder
             tags: true,
             tokenSeparators: ['/', ',', ';', " "]
         });
         console.log($('.mul-select').find(':selected'));
     })
-    $(document).onchange(function() {
-        console.log($('.mul-select').find(':selected'));
-    });
 </script>
 <script>
     $.ajax({

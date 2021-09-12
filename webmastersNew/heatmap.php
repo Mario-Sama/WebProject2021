@@ -5,17 +5,7 @@ include_once 'includes/dbh.inc.php'
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- <script>
-  src = "leaflet-heat.js"
-</script>
-<script>
-  src = "leaflet-heatmap.js"
-</script>
-<script src="leaflet.select-layers.min.js"></script>
-<script>
-  src = "https://github.com/Leaflet/Leaflet.heat/blob/gh-pages/dist/leaflet-heat.js"
-</script> -->
-<!-- <div id="issMap"></div> -->
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.js"></script>
@@ -76,11 +66,13 @@ include_once 'includes/dbh.inc.php'
   //   lat: null,
   //   lng: null
   // };
+  var myvar = '<?= $_SESSION["useruid"]; ?>';
+  //console.log(myvar)
   $.ajax({
     url: 'AJAX/get_heatmap_data.php',
     method: 'GET',
     data: {
-      name: "mariosss"
+      name: myvar
     },
     success: function(json) {
       // output the "calling_code" object inside "location"
@@ -104,7 +96,7 @@ include_once 'includes/dbh.inc.php'
 
       // get the API result via jQuery.ajax
       let node = {};
-      var nodeList = [];
+      const nodeList = [];
       for (let i = 0; i < ip.length; i++) {
         $.ajax({
           url: 'http://api.ipapi.com/' + ip[i] + '?access_key=' + access_key,
@@ -265,8 +257,3 @@ fetch('https://ipapi.co/8.8.8.8?access_key=857f8bbffec5f0b776e99d320d2f4885/json
   //  console.log(e);
   // }, "jsonp")
 </script>
-
-
-
-
-
