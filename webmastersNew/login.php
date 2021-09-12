@@ -10,11 +10,7 @@
       <button type="submit" name="submit">Log In</button>
     </form>
   </div>
-  <div class="Acount settings">
-    <form action="accountSettings.php" method="post">
-        <button type="submit" name="change">Edit your account</button>
-    </form>
-  </div>
+
   <?php
   if (isset($_GET["error"])) {
     if ($_GET["error"] == "emptyinput") {
