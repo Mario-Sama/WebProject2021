@@ -3,7 +3,7 @@
 $server_name = "localhost";
 $db_username = "root";
 $db_password = "";
-$db_name = "adminpanel";
+$db_name = "webmastersdb";
 
 $connection = mysqli_connect($server_name,$db_username,$db_password,$db_name);        //This is where the magin happens.We create a variable $connection, which is vital field of funtion mysqli_query(),where we establish our connection.
                                                                                       //Exception handling is including.This code along with security.php are necessary to connect to our database!

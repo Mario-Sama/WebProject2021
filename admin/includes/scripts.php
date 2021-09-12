@@ -19,7 +19,7 @@
   <?php
 
 
-$connection = mysqli_connect("localhost","root","","adminpanel");
+$connection = mysqli_connect("localhost","root","","webmastersdb");
 
 if(isset($_POST['registerbtn']))
 {
@@ -30,7 +30,7 @@ if(isset($_POST['registerbtn']))
 
     if($password === $confirm_password)
     {
-        $query = "INSERT INTO register (username,email,password) VALUES ('$username','$email','$password')";
+        $query = "INSERT INTO admins (adminsName,adminsEmail,adminsPwd) VALUES ('$username','$email','$password')";   //"INSERT INTO admins (username,email,password) VALUES ('$username','$email','$password')";
         $query_run = mysqli_query($connection, $query);
 
         if($query_run)

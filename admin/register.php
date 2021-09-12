@@ -85,8 +85,8 @@ if(isset($_SESSION['status']) && $_SESSION['status'] !='')
     <div class="table-responsive">
 
       <?php
-      $connection = mysqli_connect("localhost","root","","adminpanel");
-        $query = "SELECT * FROM register";
+      $connection = mysqli_connect("localhost","root","","webmastersdb");
+        $query = "SELECT * FROM admins";
         $query_run = mysqli_query($connection, $query);
       ?>
 
@@ -112,23 +112,23 @@ if(isset($_SESSION['status']) && $_SESSION['status'] !='')
           ?>
 
           <tr>
-            <td> <?php echo $row['id']; ?> </td>
-            <td> <?php echo $row['username']; ?></td>
-            <td> <?php echo $row['email']; ?></td>
-            <td> <?php echo $row['password']; ?></td>
+            <td> <?php echo $row['adminsId']; ?> </td>
+            <td> <?php echo $row['adminsName']; ?></td>
+            <td> <?php echo $row['adminsEmail']; ?></td>
+            <td> <?php echo $row['adminsPwd']; ?></td>
             <td>
                <!-- <form class="" action="code.php" method="post">
               <button type="submit" name="edit_btn"></button>  -->
 
 
                                     <form action="register_edit.php" method="post">
-                                        <input type="hidden" name="edit_id" value="<?php echo $row['id']; ?>">
+                                        <input type="hidden" name="edit_id" value="<?php echo $row['adminsId']; ?>">
                                         <button type="submit" name="edit_btn" class="btn btn-success"> EDIT</button>
                                     </form>
                                 </td>
                                  <td>
                                     <form action="code.php" method="post">
-                                        <input type="hidden" name="delete_id" value="<?php echo $row['id']; ?>">
+                                        <input type="hidden" name="delete_id" value="<?php echo $row['adminsId']; ?>">
                                         <button type="submit" name="delete_btn" class="btn btn-danger"> DELETE</button>
                                     </form>
                                 </td>

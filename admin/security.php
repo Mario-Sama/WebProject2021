@@ -18,8 +18,9 @@ else
     header("Location: database/dbconfig.php");
 }
 
-if(!$_SESSION['username'])
+if(!$_SESSION['adminsName'])
 {
     header('Location: login.php');
 }
+
 ?>

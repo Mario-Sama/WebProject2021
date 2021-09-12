@@ -118,6 +118,12 @@ if(!isset($_SESSION))
     <i class="fas fa-fw fa-table"></i>
     <span>Tables</span></a>
 </li>
+<!-- Nav Item - Heatmaps -->
+<li class="nav-item">
+  <a class="nav-link" href="heatmaps.html">
+    <i class="far fa-map"></i>
+    <span>Heatmaps</span></a>
+</li>
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
@@ -292,7 +298,7 @@ if(!isset($_SESSION))
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
 
-               <?php echo $_SESSION['username']; ?>
+             <?php echo $_SESSION['adminsName']; ?>
 
                 </span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">

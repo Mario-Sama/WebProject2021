@@ -12,7 +12,7 @@ if(isset($_POST['registerbtn']))
     $password = $_POST['password'];
     $cpassword = $_POST['confirmpassword'];
 
-    $email_query = "SELECT * FROM register WHERE email='$email' ";
+    $email_query = "SELECT * FROM admins WHERE adminsEmail='$email' ";
     $email_query_run = mysqli_query($connection, $email_query);
     if(mysqli_num_rows($email_query_run) > 0)
     {
@@ -24,8 +24,10 @@ if(isset($_POST['registerbtn']))
     {
         if($password === $cpassword)
         {
-            $query = "INSERT INTO register (username,email,password) VALUES ('$username','$email','$password')";
+            $query = "INSERT INTO admins (adminsName,adminsEmail,adminsPwd) VALUES ('$username','$email','$password')";     //$query = "INSERT INTO register (username,email,password) VALUES ('$username','$email','$password')";
             $query_run = mysqli_query($connection, $query);
+
+
 
             if($query_run)
             {
@@ -64,7 +66,7 @@ if(isset($_POST['updatebtn']))
     $email = $_POST['edit_email'];
     $password = $_POST['edit_password'];
 
-    $query = "UPDATE register SET username='$username', email='$email', password='$password' WHERE id='$id' ";  //Update query
+    $query = "UPDATE admins SET adminsName='$username', adminsEmail='$email', adminsPwd='$password' WHERE adminsId='$id' ";  //Update query
     $query_run = mysqli_query($connection, $query);
 
     if($query_run)
@@ -90,7 +92,7 @@ if(isset($_POST['delete_btn']))
 {
     $id = $_POST['delete_id'];
 
-    $query = "DELETE FROM register WHERE id='$id' ";      //sql delete query
+    $query = "DELETE FROM admins WHERE adminsId='$id' ";      //sql delete query
     $query_run = mysqli_query($connection, $query);
 
     if($query_run)
@@ -116,12 +118,12 @@ if(isset($_POST['login_btn']))
     $email_login = $_POST['emaill'];
     $password_login = $_POST['passwordd'];
 
-    $query = "SELECT * FROM register WHERE email='$email_login' AND password='$password_login' LIMIT 1";
+    $query = "SELECT * FROM admins WHERE adminsEmail='$email_login' AND adminsPwd='$password_login' LIMIT 1";
     $query_run = mysqli_query($connection, $query);
 
    if(mysqli_fetch_array($query_run))
    {
-        $_SESSION['username'] = $email_login;
+        $_SESSION['adminsName'] = $email_login;
         header('Location: index.php');
    }
    else
