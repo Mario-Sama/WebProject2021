@@ -8,6 +8,9 @@ session_start();
 <head>
   <meta charset="utf-8">
   <title>webmasters project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -15,6 +18,7 @@ session_start();
   <nav>
     <div class="wrapper">
       <ul>
+        <!-- Menu in list type for easy navigation-->
         <?php
         if (isset($_SESSION["useruid"])) {
           if (!$_SESSION["isAdmin"]) {

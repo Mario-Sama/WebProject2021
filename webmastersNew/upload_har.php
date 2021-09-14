@@ -1,25 +1,37 @@
 <?php
 include_once 'header.php';
 ?>
-<style>
+
+<?php
+if (isset($_SESSION["useruid"])) {
+  echo "<p>Hello " . $_SESSION["useruid"] . "<p>"; }
+?>v
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="style.css">
+
+    <input type="file" class="choose-files" id="file-selector" multiple accept=".har, .json">
+    <p id="status"></p>
+    <div>
+      <p id="output"> </p>
+    </div>
+
+    <div id="downloadButton"></div>
+
+
+<!-- style>
   #file-selector {
     border: 5px dashed red;
     width: 450px;
     height: 250px;
   }
-</style>
+</style> -->
 
-<?php
 
-?>
 
-<input type="file" id="file-selector" multiple accept=".har, .json">
-<p id="status"></p>
-<div>
-  <p id="output"> </p>
-</div>
 
-<div id="downloadButton"></div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 <script>
@@ -142,6 +154,14 @@ include_once 'header.php';
       var container = document.getElementById('downloadButton');
       container.appendChild(button);
 
+      // Make newHar which cointains filtered har data in json form and make them raw text .
+
+        var rawstring =  JSON.stringify(newHar)                           //send raw input to the file as text and not in json format(for some weird reason it won't accept json datatype)
+        $.post("UploadHarDatatoDB.php", {data:rawstring} ,function(){     //send the contents of the js object rawstring in UploadHarDatatoDB.php
+          alert("Filtered Json fields uploaded successfully!");           //Popup message for confirmation
+        } );
+
+
       $.ajax({
         url: "AJAX/get_har_data.php",
         method: "post",
@@ -174,4 +194,3 @@ include_once 'header.php';
   // });
   // }
 </script>
-
