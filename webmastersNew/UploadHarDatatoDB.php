@@ -3,8 +3,12 @@ session_start();
 //include_once 'includes/dbh.inc.php';
 //include_once 'header.php';
 
-//Transfer the filtered har file(newHar) in the current php file.Store it in $jsonrawstring as text and decode it again in json form.
+//Transfer the original har file(json) in the current php file.Store it in $jsonoriginalrawstring as text and decode it again in json form,as an array usable by php.
+//ΔΕΝ ΧΡΕΙΑΣΤΗΚΕ ΤΟ ΑΡΧΙΚΟ HAR
+//$jsonoriginalrawstring = $_POST["originaldata"];
+//$finaloriginaljson = json_decode($jsonoriginalrawstring);
 
+//Transfer the filtered har file(newHar) in the current php file.Store it in $jsonrawstring as text and decode it again in json form.
 $jsonrawstring = $_POST["data"];
 $finaljson = json_decode($jsonrawstring);
 
@@ -16,33 +20,36 @@ $dBUsername = "root";
 $dBPassword = "";
 $dBName = "webmastersdb";
 
-$conn = @mysqli_connect($serverName, $dBUsername, $dBPassword, $dBName);
+$conn = mysqli_connect($serverName, $dBUsername, $dBPassword, $dBName);
 
 if (!$conn) {
   die("Connction failed: " . mysqli_connect_error());
 }
 
+//,uploadDate,usersUid,usersIp,startedDayTime,domainname,status,provider
 
-  $query= "INSERT INTO har (method) VALUES ('".$finaljson[1]->requestMethod."')";
-  mysqli_query($conn,$query);
+  for ($i = 0; $i <= sizeof($finaljson) ; $i++){
+
+    //$url = $finaljson[$i]->requestUrl;
+    //$filtereddomain = preg_filter('/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img', '($0)', $url);
+    //$filtereddomain = preg_replace('/.*/' , '/((www\.)?[\w-]+\.\w{2,6})?/' , $domain);
 
 
+       $query= "INSERT INTO har (method,domainname,status) VALUES ('".$finaljson[$i]->requestMethod."','".$finaljson[$i]->requestUrl."','".$finaljson[$i]->status."')";        //'$filtereddomain'
+       //$query2= "INSERT INTO har (method,uploadDate,usersUid,usersIp,startedDayTime,domainname,status,provider) VALUES ('','','','','','','".$finaljson[$i]->status."','')";
+       mysqli_query($conn,$query);
+       //mysqli_query($conn,$query2);
 
+     }
 
 /*
-foreach($finaljson->requestMethod as $method)
-
-    {
-      $query= "INSERT INTO har (method) VALUES ('".$$method."')";
-      mysqli_query($conn,$query);
-         echo $method->requestMethod . "\n";
-         foreach($mydata->values as $values)                ΟΗΗΗΗ ΝΟΟΟΟΟΟΟΟΟΟΟΟΟΟΟΟΟΟΟΟΟ
-         {
-              echo $values->value . "\n";
-         }
-    }
+     for ($i = 0; $i <= sizeof($finaloriginaljson.log->entries) ; $i++){
+       for ($j = 0; $j <= sizeof($finaloriginaljson.log->entries[$i].request->cookies) ; $j++){
+          $query= "INSERT INTO har (domainname) VALUES ('".$finaloriginaljson.log->entries[$i].request->cookies[$j]->domain."')";
+          //$query2= "INSERT INTO har (method,uploadDate,usersUid,usersIp,startedDayTime,domainname,status,provider) VALUES ('','','','','','','".$finaljson[$i]->status."','')";
+          mysqli_query($conn,$query);
+          //mysqli_query($conn,$query2);
+          }
+      }
 */
-
-
-
 ?>

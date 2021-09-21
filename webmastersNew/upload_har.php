@@ -75,7 +75,9 @@ if (isset($_SESSION["useruid"])) {
         const requestHeaders = {};
         const responseHeaders = {};
         obj.requestMethod = json.log.entries[i].request.method;
-        obj.requestUrl = json.log.entries[i].request.url;
+        //obj.requestUrl = json.log.entries[i].request.url;
+        obj.requestUrl = json.log.entries[i].request.url.match(/(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img)[1];
+
         //obj.requestHeadersName = [];
         //obj.requestHeadersValue = [];
         //obj.responseHeadersName = [];
@@ -147,18 +149,26 @@ if (isset($_SESSION["useruid"])) {
         var url = window.URL.createObjectURL(myBlob);
         var link = document.createElement("a");
         link.href = url;
-        link.download = "demo.json";
+        link.download = "filtered.json";
         link.click();
         window.URL.revokeObjectURL(url);
       };
       var container = document.getElementById('downloadButton');
       container.appendChild(button);
 
+
+
+      var rawstringoriginal =  JSON.stringify(json)                             //store raw file uploaded by the user in a variable to use it specifically for finding the domain and the providers.
+      $.post("UploadHarDatatoDB.php", {originaldata:rawstringoriginal} ,function(){
+        //alert("Original Json uploaded successfully!");
+      } );
+
+
       // Make newHar which cointains filtered har data in json form and make them raw text .
 
         var rawstring =  JSON.stringify(newHar)                           //send raw input to the file as text and not in json format(for some weird reason it won't accept json datatype)
         $.post("UploadHarDatatoDB.php", {data:rawstring} ,function(){     //send the contents of the js object rawstring in UploadHarDatatoDB.php
-          alert("Filtered Json fields uploaded successfully!");           //Popup message for confirmation
+          alert("Filtered Json fields uploaded successfully to the Database!");           //Popup message for confirmation
         } );
 
 
