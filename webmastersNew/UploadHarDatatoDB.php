@@ -35,7 +35,7 @@ if (!$conn) {
     //$filtereddomain = preg_replace('/.*/' , '/((www\.)?[\w-]+\.\w{2,6})?/' , $domain);
 
 
-       $query= "INSERT INTO har (method,domainname,status) VALUES ('".$finaljson[$i]->requestMethod."','".$finaljson[$i]->requestUrl."','".$finaljson[$i]->status."')";        //'$filtereddomain'
+       $query= "INSERT INTO har (startedDateTime,method,domainname,status,requestedserverIP) VALUES ('".$finaljson[$i]->startedDateTime."','".$finaljson[$i]->requestMethod."','".$finaljson[$i]->requestUrl."','".$finaljson[$i]->status."','".$finaljson[$i]->serverIPAddress."')";        //'$filtereddomain'
        //$query2= "INSERT INTO har (method,uploadDate,usersUid,usersIp,startedDayTime,domainname,status,provider) VALUES ('','','','','','','".$finaljson[$i]->status."','')";
        mysqli_query($conn,$query);
        //mysqli_query($conn,$query2);
