@@ -7,7 +7,7 @@
     $harData = $_POST["har"];
     $userIp = $_POST["ip"];
   //$host = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-  //echo $hostname; 
+  //echo $hostname;
     $date = date('Y-m-d H:i:s');
     $user = $_SESSION["useruid"];
     $sql = "INSERT INTO har (har_data, uploadDate, usersUid, usersIp) VALUES (?, ?, ?, ?);";

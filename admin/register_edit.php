@@ -23,7 +23,7 @@ include('security.php');
                 {
                     $id = $_POST['edit_id'];
 
-                    $query = "SELECT * FROM register WHERE id='$id' ";
+                    $query = "SELECT * FROM admins WHERE adminsId='$id' ";
                     $query_run = mysqli_query($connection, $query);
 
                     foreach($query_run as $row)
@@ -32,20 +32,20 @@ include('security.php');
 
                             <form action="code.php" method="POST">
 
-                                <input type="hidden" name="edit_id" value="<?php echo $row['id'] ?>">
+                                <input type="hidden" name="edit_id" value="<?php echo $row['adminsId'] ?>">
 
                                 <div class="form-group">
                                     <label> Username </label>
-                                    <input type="text" name="edit_username" value="<?php echo $row['username'] ?>" class="form-control"
+                                    <input type="text" name="edit_username" value="<?php echo $row['adminsName'] ?>" class="form-control"
                                         placeholder="Enter Username">
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" name="edit_email" value="<?php echo $row['email'] ?>" class="form-control" placeholder="Enter Email">
+                                    <input type="email" name="edit_email" value="<?php echo $row['adminsEmail'] ?>" class="form-control" placeholder="Enter Email">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" name="edit_password" value="<?php echo $row['password'] ?>" class="form-control" placeholder="Enter Password">
+                                    <input type="password" name="edit_password" value="<?php echo $row['adminsPwd'] ?>" class="form-control" placeholder="Enter Password">
                                 </div>
 
                                 <a href="register.php" class="btn btn-danger"> CANCEL </a>

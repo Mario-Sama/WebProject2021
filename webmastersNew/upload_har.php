@@ -5,12 +5,11 @@ include_once 'header.php';
 <?php
 if (isset($_SESSION["useruid"])) {
   echo "<p>Hello " . $_SESSION["useruid"] . "<p>"; }
-?>v
-
-
+?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="style.css">
+
 
     <input type="file" class="choose-files" id="file-selector" multiple accept=".har, .json">
     <p id="status"></p>
@@ -30,9 +29,6 @@ if (isset($_SESSION["useruid"])) {
 </style> -->
 
 
-
-
-
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
 <script>
   src = "https://cdnjs.cloudflare.com/ajax/libs/d3/7.0.1/d3.min.js"
@@ -41,10 +37,46 @@ if (isset($_SESSION["useruid"])) {
 
 <script>
   let ipad;
+  let provider;
+  let lang;
+  let long;
   let newHar = {};
-  fetch("https://api.ipify.org/?format=json")
+
+/*
+  fetch("https://geo.ipify.org/api/v1?apiKey=at_EM4h3JKGD8rRvV81UnxCXmAmtQWVc")
     .then(results => results.json())
-    .then(data => ipad = data.ip);
+    .then(data => {
+      ipad = data.ip;
+      provider = data.as.name;
+      lang = data.location.lat;
+      long = data.location.lng;
+             });
+
+*/
+
+
+//works except for provider
+/*
+    fetch("http://api.ipapi.com/api/check?access_key=88b994663645ad5e9fa0b0c829df23b4")
+      .then(results => results.json())
+      .then(data => {
+        ipad = data.ip;
+        //provider = data.connection.isp;
+        lang = data.latitude;
+        long = data.longitude;
+             });
+*/
+
+
+        fetch("https://ipapi.co/json/")
+               .then(results => results.json())
+               .then(data => {
+                 ipad = data.ip;
+                 provider = data.org;
+                 lang = data.latitude;
+                 long = data.longitude;
+                      });
+
 
   const fileSelector = document.getElementById("file-selector");
   fileSelector.addEventListener('change', (event) => {
@@ -53,6 +85,9 @@ if (isset($_SESSION["useruid"])) {
     reader.onload = function() {
       const json = JSON.parse(reader.result);
       console.log(ipad);
+      console.log(provider);
+      console.log(lang);
+      console.log(long);
       console.log(json);
       let harData = {};
       let list = []
@@ -157,12 +192,12 @@ if (isset($_SESSION["useruid"])) {
       container.appendChild(button);
 
 
-
+/*      WASNT USED
       var rawstringoriginal =  JSON.stringify(json)                             //store raw file uploaded by the user in a variable to use it specifically for finding the domain and the providers.
       $.post("UploadHarDatatoDB.php", {originaldata:rawstringoriginal} ,function(){
         //alert("Original Json uploaded successfully!");
       } );
-
+*/
 
       // Make newHar which cointains filtered har data in json form and make them raw text .
 
@@ -172,7 +207,33 @@ if (isset($_SESSION["useruid"])) {
         } );
 
 
-      $.ajax({
+//Post js variables with ajax to use for extracting user's parameters in database
+
+$.ajax({
+        url: "AJAX/requestedipinfo.php",
+        method: "post",
+        data: {
+          usersIp : ipad ,
+          latitude : lang ,
+          longitude : long,
+          provider : provider
+        },
+        success: function(res) {
+          console.log(res);
+        }
+      });
+  }
+  reader.readAsText(fileList[0]);
+});
+
+
+
+
+
+
+
+
+  /*    $.ajax({
         url: "AJAX/get_har_data.php",
         method: "post",
         data: {
@@ -186,6 +247,8 @@ if (isset($_SESSION["useruid"])) {
     }
     reader.readAsText(fileList[0]);
   });
+*/
+
   // const dropArea = document.getElementById('drop-area');
   // if (dropArea) {
   // dropArea.addEventListener('dragover', (event) => {

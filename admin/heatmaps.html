@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
   crossorigin=""/>
@@ -58,7 +60,7 @@
           </div>
 <script>
 
-var mymap = L.map('mapid').setView([38.281351, 21.766968], 17);
+var mymap = L.map('mapid').setView([38.281351, 21.766968], 16);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
   maxZoom: 18,
@@ -70,26 +72,89 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(mymap);
 
 L.marker([38.282268, 21.765828]).addTo(mymap)
-  .bindPopup("<b>Location of current User!</b>").openPopup();
+  .bindPopup("<b>Location of Mario !</b>").openPopup();
 
-  L.marker([38.280295, 21.772952]).addTo(mymap)
-    .bindPopup("<b>Location of current User!</b>").openPopup();
+L.marker([38.280295, 21.772952]).addTo(mymap)
+    .bindPopup("<b>Location !</b>").openPopup();
 
-    L.marker([38.281351, 21.766968]).addTo(mymap)
+L.marker([38.281351, 21.767968]).addTo(mymap)
       .bindPopup("<b>Location of current User!</b>").openPopup();
 
-L.circle([51.508, -0.11], 500, {
-  color: 'red',
-  fillColor: '#f03',
-  fillOpacity: 0.5
-}).addTo(mymap).bindPopup("I am a circle.");
+    L.marker([38.281360, 21.766950]).addTo(mymap)
+    .bindPopup("<b>Location 3!</b>").openPopup();
 
+
+
+
+
+
+let ip = [];
+let node = {};
+$.ajax({
+        url: "AJAX/requestedserverIP.php",
+        method: "get",
+        success: function(res) {
+          console.log(res);
+          res = res.replaceAll('[','');
+          ip = res.split("]");
+          // console.log(ip);
+          // for (i = 0; i < ip.length; i++) {
+          //   ip = ip[i].replace('[','');
+          // }
+          console.log(ip);
+          const nodeList = [];
+          for (let i = 0; i <= ip.length; i++) {
+            $.ajax({
+              url: 'https://ipapi.co/' + ip[i] + '/json/' ,   //url: 'http://api.ipapi.com/' + ip[i] + '?88b994663645ad5e9fa0b0c829df23b4=',
+              dataType: 'json',
+              success: function(ipData) {
+                // output the "calling_code" object inside "location"
+                //alert(json.location.calling_code);
+                //location.push
+                //console.log(ipData.latitude);
+                //node.lat = ipData.latitude;
+                //node.lng = ipData.longitude;
+                console.log(node);
+                console.log(ipData.latitude);
+                console.log(ipData.longitude);
+                nodeList.push(node);
+              //  marker.setLatLng([json.latitude, json.longitude])
+                L.marker([ipData.latitude,ipData.longitude]).addTo(mymap)
+          .bindPopup("<b>IP OF SERVER</b>").openPopup();
+              }
+            });
+
+          // for (i = 0; i < 50; i++) {
+          //   L.marker([, 21.766968]).addTo(mymap)
+          //         .bindPopup("<b>Location of current User!</b>").openPopup();
+          //       }
+          }
+        }
+      });
+
+
+
+
+
+/*
 L.polygon([
   [38.282268, 21.765828],
   [38.280295, 21.772952],
-  [38.281351, 21.766968]
+  [38.281351, 21.766968],
+  [38.281349, 21.766965]
 ]).addTo(mymap).bindPopup("I am a polygon.");
+*/
+// create a red polyline from an array of LatLng points
+var latlngs = [
+    [45.51, -122.68],
+    [37.77, -122.43],
+    [34.04, -118.2]
+];
 
+//var polyline = L.polyline(latlngs, {color: 'red'}).addTo(mymap);
+
+// zoom the map to the polyline
+mymap.fitBounds(polyline.getBounds());
 
 var popup = L.popup();
 
