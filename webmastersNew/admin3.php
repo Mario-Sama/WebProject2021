@@ -1,7 +1,11 @@
 <?php
 include_once 'header.php';
 ?>
-
+<?php
+if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 1) {
+    header('Location: index.php');
+}
+?>
 <?php
 
 ?>
@@ -14,4 +18,3 @@ include_once 'header.php';
 <a href="ask3_3.php">
     <button type="button" name="ask3_3">ask3_3</button>
 </a>
-

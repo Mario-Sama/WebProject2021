@@ -10,7 +10,11 @@ include_once 'includes/dbh.inc.php'
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/leaflet-heatmap@1.0.0/leaflet-heatmap.js"></script>
-
+<?php
+if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 0) {
+  header('Location: index.php');
+}
+?>
 <div id="mapid"></div>
 <!-- 
 <style>

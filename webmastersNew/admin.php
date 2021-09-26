@@ -1,7 +1,11 @@
 <?php
 include_once 'header.php';
 ?>
-
+<?php
+if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 1) {
+  header('Location: index.php');
+}
+?>
 <?php
 
 ?>
@@ -16,9 +20,6 @@ include_once 'header.php';
 </a>
 <a href="visualizeData.php">
   <button type="button" name="visualizeData">Visualize Data</button>
-</a>
-<a href="accountSettings.php">
-  <button type="button" name="settings">Settings</button>
 </a>
 
 <section class="index-intro">

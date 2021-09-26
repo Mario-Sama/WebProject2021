@@ -15,7 +15,11 @@
 <div class="chartBox">
     <canvas id="1"></canvas>
 </div>
-
+<?php
+if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 1) {
+    header('Location: index.php');
+}
+?>
 <script>
     //let canvas = ["1", "2"]
     $.ajax({

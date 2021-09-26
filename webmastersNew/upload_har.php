@@ -1,28 +1,29 @@
 <?php
 include_once 'header.php';
 ?>
-
 <?php
-if (isset($_SESSION["useruid"])) {
-  //echo "<p>Hello " . $_SESSION["useruid"] . "<p>";
+if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 0) {
+  header('Location: index.php');
 }
 ?>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@200&display=swap" rel="stylesheet">
 
 
 
-    <input type="file" class="choose-files" id="file-selector" multiple accept=".har, .json">
-    <p id="status"></p>
-    <div>
-      <p id="output"> </p>
-    </div>
+<input type="file" class="choose-files" id="file-selector" multiple accept=".har, .json">
+<p id="status"></p>
+<div>
+  <p id="output"> </p>
+</div>
 
-    <div id="downloadButton"></div>
+<div id="downloadButton"></div>
 
 <!-- style>
   #file-selector {
@@ -46,40 +47,40 @@ if (isset($_SESSION["useruid"])) {
   let long;
   let newHar = {};
 
-/*
-  fetch("https://geo.ipify.org/api/v1?apiKey=at_EM4h3JKGD8rRvV81UnxCXmAmtQWVc")
-    .then(results => results.json())
-    .then(data => {
-      ipad = data.ip;
-      provider = data.as.name;
-      lang = data.location.lat;
-      long = data.location.lng;
-             });
-
-*/
-
-
-//works except for provider
-/*
-    fetch("http://api.ipapi.com/api/check?access_key=88b994663645ad5e9fa0b0c829df23b4")
+  /*
+    fetch("https://geo.ipify.org/api/v1?apiKey=at_EM4h3JKGD8rRvV81UnxCXmAmtQWVc")
       .then(results => results.json())
       .then(data => {
         ipad = data.ip;
-        //provider = data.connection.isp;
-        lang = data.latitude;
-        long = data.longitude;
-             });
-*/
+        provider = data.as.name;
+        lang = data.location.lat;
+        long = data.location.lng;
+               });
+
+  */
 
 
-        fetch("https://ipapi.co/json/")
-               .then(results => results.json())
-               .then(data => {
-                 ipad = data.ip;
-                 provider = data.org;
-                 lang = data.latitude;
-                 long = data.longitude;
-                      });
+  //works except for provider
+  /*
+      fetch("http://api.ipapi.com/api/check?access_key=88b994663645ad5e9fa0b0c829df23b4")
+        .then(results => results.json())
+        .then(data => {
+          ipad = data.ip;
+          //provider = data.connection.isp;
+          lang = data.latitude;
+          long = data.longitude;
+               });
+  */
+
+
+  fetch("https://ipapi.co/json/")
+    .then(results => results.json())
+    .then(data => {
+      ipad = data.ip;
+      provider = data.org;
+      lang = data.latitude;
+      long = data.longitude;
+    });
 
 
   const fileSelector = document.getElementById("file-selector");
@@ -196,39 +197,41 @@ if (isset($_SESSION["useruid"])) {
       container.appendChild(button);
 
 
-/*      WASNT USED
-      var rawstringoriginal =  JSON.stringify(json)                             //store raw file uploaded by the user in a variable to use it specifically for finding the domain and the providers.
-      $.post("UploadHarDatatoDB.php", {originaldata:rawstringoriginal} ,function(){
-        //alert("Original Json uploaded successfully!");
-      } );
-*/
+      /*      WASNT USED
+            var rawstringoriginal =  JSON.stringify(json)                             //store raw file uploaded by the user in a variable to use it specifically for finding the domain and the providers.
+            $.post("UploadHarDatatoDB.php", {originaldata:rawstringoriginal} ,function(){
+              //alert("Original Json uploaded successfully!");
+            } );
+      */
 
       // Make newHar which cointains filtered har data in json form and make them raw text .
 
-        var rawstring =  JSON.stringify(newHar)                           //send raw input to the file as text and not in json format(for some weird reason it won't accept json datatype)
-        $.post("UploadHarDatatoDB.php", {data:rawstring} ,function(){     //send the contents of the js object rawstring in UploadHarDatatoDB.php
-          alert("Filtered Json fields uploaded successfully to the Database!");           //Popup message for confirmation
-        } );
+      var rawstring = JSON.stringify(newHar) //send raw input to the file as text and not in json format(for some weird reason it won't accept json datatype)
+      $.post("UploadHarDatatoDB.php", {
+        data: rawstring
+      }, function() { //send the contents of the js object rawstring in UploadHarDatatoDB.php
+        alert("Filtered Json fields uploaded successfully to the Database!"); //Popup message for confirmation
+      });
 
 
-//Post js variables with ajax to use for extracting user's parameters in database
+      //Post js variables with ajax to use for extracting user's parameters in database
 
-$.ajax({
+      $.ajax({
         url: "AJAX/requestedipinfo.php",
         method: "post",
         data: {
-          usersIp : ipad ,
-          latitude : lang ,
-          longitude : long,
-          provider : provider
+          usersIp: ipad,
+          latitude: lang,
+          longitude: long,
+          provider: provider
         },
         success: function(res) {
           console.log(res);
         }
       });
-  }
-  reader.readAsText(fileList[0]);
-});
+    }
+    reader.readAsText(fileList[0]);
+  });
 
 
 

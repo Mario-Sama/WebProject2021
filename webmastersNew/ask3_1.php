@@ -19,7 +19,11 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-
+<?php
+if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 1) {
+    header('Location: index.php');
+}
+?>
 
 <div class="chartBox">
     <canvas id="myChart"></canvas>
