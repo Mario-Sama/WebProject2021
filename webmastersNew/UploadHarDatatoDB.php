@@ -1,6 +1,7 @@
 <?php
 session_start();
-$usersUid=$_POST["uid"];
+//$usersUid=$_POST["uid"];
+$usersUid=$_SESSION["useruid"];
 
 //include_once 'includes/dbh.inc.php';
 //include_once 'header.php';
@@ -36,9 +37,8 @@ if (!$conn) {
     //$filtereddomain = preg_filter('/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img', '($0)', $url);
     //$filtereddomain = preg_replace('/.*/' , '/((www\.)?[\w-]+\.\w{2,6})?/' , $domain);
 
-
   $query= "INSERT INTO har (usersUid,startedDateTime,method,domainname,status,requestedserverIP,wait) VALUES (?,'".$finaljson[$i]->startedDateTime."','".$finaljson[$i]->requestMethod."','".$finaljson[$i]->requestUrl."','".$finaljson[$i]->status."','".$finaljson[$i]->serverIPAddress."','".$finaljson[$i]->wait."')"; //,'".$finaljson[$i].responseHeaders[j]->content-type."'
-  $stmt=$conn->prepare($query);
+  $stmt=$conn->prepare($query);                                                                                                                                                                                                                                                                                           //,'".$finaljson[$i].responseHeaders->content-type."'            // newHar[0].responseHeaders["content-type"]
   $stmt->bind_param("s",$usersUid);
   $stmt->execute();
 

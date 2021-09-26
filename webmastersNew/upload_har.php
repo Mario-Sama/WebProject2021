@@ -175,6 +175,7 @@ if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 0) {
       harData.statusText = statusText;
       newHar = list;
       console.log(newHar);
+      console.log(newHar[0].responseHeaders["content-type"]);
 
       var button = document.createElement('button');
       button.type = 'button';
@@ -212,6 +213,18 @@ if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 0) {
       }, function() { //send the contents of the js object rawstring in UploadHarDatatoDB.php
         alert("Filtered Json fields uploaded successfully to the Database!"); //Popup message for confirmation
       });
+
+      $.ajax({
+            url: "AJAX/get_har_data.php",
+            method: "post",
+            data: {
+              har: JSON.stringify(newHar),
+              ip: ipad
+            },
+            success: function(res) {
+              console.log(res);
+            }
+          });
 
 
       //Post js variables with ajax to use for extracting user's parameters in database

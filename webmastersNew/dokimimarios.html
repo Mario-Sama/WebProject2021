@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>JSON storing</title>
+    <script type="text/javascript" src="js/jquery-3.2-1.min.js"></script>
+  </head>
+  <body>
+  <center>
+      <h1>Json with php and Js</h1>
+      <h2>Part3:</h2>
+  </center>
+  </body>
+  <script type="text/javascript"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript">
+    var emp1 = {};
+
+    emp1.id=1;
+    emp1.name = 'Abdul';
+    emp1.addr = 'Hajabla';
+
+    console.log(emp1)
+    $ajax({
+      url:"readJson.php",
+      method:"post",
+      data:emp1,
+      success:function(res){
+        console.log(res)
+      }
+    })
+    </script>
+</html>
