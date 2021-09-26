@@ -1,71 +1,67 @@
+/*
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-
-
 }
-
+*/
 body{
-    height: 100vh;
     background-color: #ff7474;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+}
 
+
+li{
+  color: white;
+
+  font-size: 30px;
+  text-transform: uppercase;
+  font-family: 'Stick No Bills', sans-serif;
+}
+
+li:not(:last-child){
+  margin-bottom: 5px;
+}
+
+li.before{
+  content: ""
+}
+
+
+
+.choose-files{
+  position: absolute;
+  font-size: 16px;
+  background: white;
+  border-radius: 50px;
+  box-shadow: 5px 5px 10px black;
+  width: 450px;
+  /*left: 150px;
+  top: 400px;*/
+  top: 50%;
+  left: 45%;
+  outline: none;
+}
+
+::-webkit-file-upload-button{
+  color: white;
+  background: #206a5d;
+  padding: 20px;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 1px 0 1px 1px #6b4559;
+  outline: none;
+}
+::-webkit-file-upload-button:hover{
+  background: #438a5e;
 }
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-.choose-files{
+.button{
   position: relative;
   width: 200px;
   height: 40px;
@@ -81,7 +77,7 @@ body{
   transition: .5s;
 }
 
-.choose-files:after , .choose-files:before{
+.button:after , .button:before{
   content: '';
   position: absolute;
   width: 2px;
@@ -93,24 +89,22 @@ body{
 
 }
 
-.choose-files:after{
+.button:after{
 right: 0;
 }
 
-.choose-files:before{
+.button:before{
   left: 0;
 
 }
 
-.choose-files:hover:before , .choose-files:hover:after{
+.button:hover:before , .button:hover:after{
   height: 100%;
   transition-delay: 0s;
 }
 
-.choose-files:hover{
+.button:hover{
   color: #ff7474;
   letter-spacing: 2px;
   transition-delay: 0.5s;
 }
-
-*/

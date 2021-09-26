@@ -11,5 +11,10 @@ if (!$conn) {
   die("Connction failed: " . mysqli_connect_error());
 }
 
-$query = "SELECT (longitude,langitude) FROM requestedipinfo;";
- mysqli_query($conn,$query);
+$query = "SELECT langitude,longitude FROM requestedipinfo LIMIT 1;";
+ $result = mysqli_query($conn,$query);
+ $row = mysqli_fetch_array($result);
+ while ($row = $result->fetch_assoc()) {
+     echo $row["langitude"];
+     echo $row["longitude"];
+ }

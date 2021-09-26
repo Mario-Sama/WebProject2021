@@ -4,11 +4,16 @@ include_once 'header.php';
 
 <?php
 if (isset($_SESSION["useruid"])) {
-  echo "<p>Hello " . $_SESSION["useruid"] . "<p>"; }
+  //echo "<p>Hello " . $_SESSION["useruid"] . "<p>";
+}
 ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@200&display=swap" rel="stylesheet">
+
 
 
     <input type="file" class="choose-files" id="file-selector" multiple accept=".har, .json">
@@ -18,7 +23,6 @@ if (isset($_SESSION["useruid"])) {
     </div>
 
     <div id="downloadButton"></div>
-
 
 <!-- style>
   #file-selector {
