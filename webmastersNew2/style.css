@@ -1,0 +1,110 @@
+/*
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+*/
+body{
+    background-color: #ff7474;
+    align-items: center;
+    justify-content: center;
+}
+
+
+li{
+  color: white;
+
+  font-size: 30px;
+  text-transform: uppercase;
+  font-family: 'Stick No Bills', sans-serif;
+}
+
+li:not(:last-child){
+  margin-bottom: 5px;
+}
+
+li.before{
+  content: ""
+}
+
+
+
+.choose-files{
+  position: absolute;
+  font-size: 16px;
+  background: white;
+  border-radius: 50px;
+  box-shadow: 5px 5px 10px black;
+  width: 450px;
+  /*left: 150px;
+  top: 400px;*/
+  top: 50%;
+  left: 45%;
+  outline: none;
+}
+
+::-webkit-file-upload-button{
+  color: white;
+  background: #206a5d;
+  padding: 20px;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 1px 0 1px 1px #6b4559;
+  outline: none;
+}
+::-webkit-file-upload-button:hover{
+  background: #438a5e;
+}
+
+
+
+
+
+.button{
+  position: relative;
+  width: 200px;
+  height: 40px;
+  font-size: 2rem;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #fff;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  letter-spacing: .25px;
+  transition: .5s;
+}
+
+.button:after , .button:before{
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  top: 0;
+  background-color: #fff;
+  transition: .5s;
+  transition-delay: 0.5s;
+
+}
+
+.button:after{
+right: 0;
+}
+
+.button:before{
+  left: 0;
+
+}
+
+.button:hover:before , .button:hover:after{
+  height: 100%;
+  transition-delay: 0s;
+}
+
+.button:hover{
+  color: #ff7474;
+  letter-spacing: 2px;
+  transition-delay: 0.5s;
+}
