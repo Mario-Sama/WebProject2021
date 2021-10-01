@@ -1,3 +1,7 @@
+<?php
+
+include_once 'includes/dbh.inc.php'
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -6,16 +10,11 @@
     <title></title>
 </head>
 <style type="text/css">
-
-body{
-background-color: #ffe6e6 ;
-
-}
-
     .chartBox {
         width: 1000px;
-
-
+    }
+    body{
+    background-color: #ffe6e6;
     }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -38,7 +37,6 @@ if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 1) {
 </div>
 
 
-
 <style>
     .mul-select {
         width: 100%;
@@ -46,7 +44,7 @@ if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 1) {
 </style>
 <div class="container-fluid h-100 bg-light text-dark">
     <div class="row justify-content-center align-items-center">
-        <h1>Select Multilpe</h1>
+        <h1>Select Content Type</h1>
     </div>
     <br>
     <div class="row justify-content-center align-items-center h-100">
@@ -213,7 +211,7 @@ if (!isset($_SESSION['useruid']) || $_SESSION['isAdmin'] != 1) {
                 data: {
                     labels: bins,
                     datasets: [{
-                        label: '# ttl',
+                        label: 'ttl',
                         data: binFreq,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',

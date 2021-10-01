@@ -209,7 +209,14 @@ include('security.php');
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">Average Content-Type lifespan</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                  <h5>  text/html; charset=UTF8 : avg-age = 5300 (ms) <br>
+                    image/png : avg-age = 67362 (ms)<br>
+                    text/javascript; charset=UTF8 : avg-age = 31536000(ms)<br>
+                    application/json; charset=UTF-8 : avg-age = 413500 (ms)<br>
+                    text/css; charset = UTF-8 : avg-age = 100500 (ms)<br>
+                    image/gif : avg-age =  = (ms)  </h5>
+                  </div>
                 </div>
                 <div class="col-auto">
                   <i class="fas fa-hourglass-half fa-2x text-gray-300"></i>

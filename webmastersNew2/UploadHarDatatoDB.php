@@ -1,7 +1,7 @@
 <?php
 session_start();
 //$usersUid=$_SESSION["useruid"];
-$usersUid="mariosss";
+$usersUid=$_SESSION["useruid"];
 
 //include_once 'includes/dbh.inc.php';
 //include_once 'header.php';
@@ -20,7 +20,7 @@ $finaljson = json_decode($jsonrawstring);
 
 $serverName = "localhost";
 $dBUsername = "root";
-$dBPassword = "7812";
+$dBPassword = "";
 $dBName = "webmastersdb";
 
 $conn = mysqli_connect($serverName, $dBUsername, $dBPassword, $dBName);

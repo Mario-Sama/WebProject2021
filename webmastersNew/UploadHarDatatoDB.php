@@ -31,7 +31,7 @@ if (!$conn) {
 
 //,uploadDate,usersUid,usersIp,startedDayTime,domainname,status,provider
 
-  for ($i = 0; $i <= sizeof($finaljson) ; $i++){
+for ($i = 0; $i <= sizeof($finaljson) ; $i++){
     //for ($j = 0; $j <= count($finaljson[$i].responseHeaders[$j]) ; $j++){
     //$url = $finaljson[$i]->requestUrl;
     //$filtereddomain = preg_filter('/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)/img', '($0)', $url);
@@ -42,14 +42,27 @@ if (!$conn) {
   $stmt->bind_param("s",$usersUid);
   $stmt->execute();
 
+
+
+
+
   /*  $query= "INSERT INTO har (startedDateTime,method,domainname,status,requestedserverIP,contenttype,expires,lastmodified,cachecontrol,age,wait,statusText) VALUES ('".$finaljson[$i]->startedDateTime."','".$finaljson[$i]->requestMethod."','".$finaljson[$i]->requestUrl."','".$finaljson[$i]->status."',
       '".$finaljson[$i].serverIPAddress."','".$finaljson[$i].responseHeaders.content-type."','".$finaljson[$i].responseHeaders.expires."','".$finaljson[$i].responseHeaders.last-modified."','".$finaljson[$i].responseHeaders.cache-control."','".$finaljson[$i].responseHeaders.age."','".$finaljson[$i]->wait."','".$finaljson[$i]->statusText."')";
 */
        //$query2= "INSERT INTO har (method,uploadDate,usersUid,usersIp,startedDayTime,domainname,status,provider) VALUES ('','','','','','','".$finaljson[$i]->status."','')";
-       mysqli_query($conn,$query);
-       //mysqli_query($conn,$query2);
-        }
-     //}
+  //     mysqli_query($conn,$query);
+
+
+
+  //$query2= "INSERT INTO har_information (contenttype) VALUES ('".$finaljson[$i].requestHeaders->content-type."')";
+  //mysqli_query($conn,$query2);
+
+
+
+
+}
+
+
 
 /*
      for ($i = 0; $i <= sizeof($finaloriginaljson.log->entries) ; $i++){

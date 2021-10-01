@@ -1,13 +1,13 @@
 <?php
   include_once 'header.php';
 ?>
-<style>
+<!--<style>
       #file-selector {
         border: 5px dashed red;
         width: 450px;
         height: 250px;
       }
-</style>
+</style>  -->
 
 <?php
   if (isset($_SESSION["useruid"])) {
@@ -15,11 +15,15 @@
   }
 ?>
 
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
       <a href="accountSettings.php">
-        <button type="button" name="settings">Settings</button>
+        <button type="button" name="settings">Edit Account Settings</button>
       </a>
 
-  <input type="file" id="file-selector" multiple  accept=".har, .jpg, .png, .json">
+  <input type="file" class="choose-files" id="file-selector" multiple  accept=".har, .jpg, .png, .json">
   <button type="submit" name="harSubmit">Upload</button>
   <p id="status"></p>
       <div>

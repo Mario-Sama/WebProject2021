@@ -11,7 +11,7 @@ if (!$conn) {
   die("Connction failed: " . mysqli_connect_error());
 }
 
-$query = "SELECT requestedserverIP FROM har";
+$query = "SELECT DISTINCT requestedserverIP FROM har";
 $result = mysqli_query($conn,$query);
 $row = mysqli_fetch_array($result);
 while ($row = $result->fetch_assoc()) {
